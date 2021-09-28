@@ -1,4 +1,8 @@
 package sistema_hotel;
+
+import BaseDatos.Conexion;
+import java.sql.ResultSet;
+
 /**
  *
  * @author redbi
@@ -11,8 +15,10 @@ public class Agregar_Reservacion extends javax.swing.JDialog {
     public Agregar_Reservacion(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        verHabitaciones(0);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -44,13 +50,13 @@ public class Agregar_Reservacion extends javax.swing.JDialog {
         jSeparator3 = new javax.swing.JSeparator();
         lblPrecioSub = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtDesc = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
         jLabel10 = new javax.swing.JLabel();
         combDisponibles = new javax.swing.JComboBox<>();
+        lblDesc = new javax.swing.JLabel();
+        jSeparator13 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -99,6 +105,11 @@ public class Agregar_Reservacion extends javax.swing.JDialog {
 
         combHab.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         combHab.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Doble", "Jacuzzi", "Suite" }));
+        combHab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combHabActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -219,7 +230,7 @@ jLabel9.setText("Total de noches:");
 
 lblTotalNoches.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 lblTotalNoches.setForeground(new java.awt.Color(255, 255, 255));
-lblTotalNoches.setText("4 noches");
+lblTotalNoches.setText("0 noches");
 
 jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 jLabel11.setForeground(new java.awt.Color(255, 255, 255));
@@ -227,7 +238,7 @@ jLabel11.setText("Precio por noche:");
 
 lblPrecioNoche.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 lblPrecioNoche.setForeground(new java.awt.Color(255, 255, 255));
-lblPrecioNoche.setText("$ 1500");
+lblPrecioNoche.setText("$ ");
 
 jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 jLabel13.setForeground(new java.awt.Color(255, 255, 255));
@@ -235,17 +246,11 @@ jLabel13.setText("Subtotal:");
 
 lblPrecioSub.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 lblPrecioSub.setForeground(new java.awt.Color(255, 255, 255));
-lblPrecioSub.setText("$ 6000");
+lblPrecioSub.setText("$ ");
 
 jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 jLabel4.setForeground(new java.awt.Color(255, 255, 255));
 jLabel4.setText("Descuento:");
-
-txtDesc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
-jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-jLabel15.setText("$");
 
 jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 27)); // NOI18N
 jLabel16.setForeground(new java.awt.Color(255, 255, 255));
@@ -253,14 +258,17 @@ jLabel16.setText("Total:");
 
 lblTotal.setFont(new java.awt.Font("Segoe UI", 0, 27)); // NOI18N
 lblTotal.setForeground(new java.awt.Color(255, 255, 255));
-lblTotal.setText("$ 6000");
+lblTotal.setText("$ ");
 
 jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 jLabel10.setForeground(new java.awt.Color(255, 255, 255));
 jLabel10.setText("Habitaciones disponibles:");
 
 combDisponibles.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-combDisponibles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0000" }));
+
+lblDesc.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+lblDesc.setForeground(new java.awt.Color(255, 255, 255));
+lblDesc.setText("$ ");
 
 javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
 jPanel1.setLayout(jPanel1Layout);
@@ -275,46 +283,49 @@ jPanel1Layout.setHorizontalGroup(
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel15))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel7)
-                                .addComponent(jLabel3)
-                                .addComponent(txtTelC)
-                                .addComponent(jLabel8)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(lblDesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGap(8, 8, 8))
+                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtTelC, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel9)
                                     .addGap(18, 18, 18)
                                     .addComponent(lblTotalNoches))
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(dateEntra, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                                .addComponent(dateSale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(dateEntra, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                                .addComponent(dateSale, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(combHab, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6)
                             .addComponent(combDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblPrecioNoche))
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblPrecioSub))
-                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel16)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblTotal))
-                            .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel13)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(lblPrecioSub, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel11)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(lblPrecioNoche, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel16)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -325,7 +336,7 @@ jPanel1Layout.setHorizontalGroup(
                             .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNombreC, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(0, 162, Short.MAX_VALUE))))
+                .addGap(0, 156, Short.MAX_VALUE))))
     );
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -382,14 +393,17 @@ jPanel1Layout.setHorizontalGroup(
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGap(18, 18, 18)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel16)
-                .addComponent(lblTotal)
-                .addComponent(jLabel4)
-                .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel15))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(lblTotal))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(lblDesc)))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(32, 32, 32)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -414,7 +428,7 @@ jPanel1Layout.setHorizontalGroup(
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-            .addGap(0, 2, Short.MAX_VALUE)
+            .addGap(0, 7, Short.MAX_VALUE)
             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -442,23 +456,64 @@ jPanel1Layout.setHorizontalGroup(
     private void txtCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCorreoActionPerformed
-  
+
+    private void combHabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combHabActionPerformed
+        int opc = combHab.getSelectedIndex();
+        verHabitaciones(opc);
+        colocarPrecio(opc, 1);
+    }//GEN-LAST:event_combHabActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnCancelar1;
+    private javax.swing.JButton btnCancelar2;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnGuardar1;
+    private javax.swing.JButton btnGuardar2;
     private javax.swing.JComboBox<String> combDisponibles;
+    private javax.swing.JComboBox<String> combDisponibles1;
+    private javax.swing.JComboBox<String> combDisponibles2;
     private javax.swing.JComboBox<String> combHab;
+    private javax.swing.JComboBox<String> combHab1;
+    private javax.swing.JComboBox<String> combHab2;
     private datechooser.beans.DateChooserCombo dateEntra;
+    private datechooser.beans.DateChooserCombo dateEntra1;
+    private datechooser.beans.DateChooserCombo dateEntra2;
     private datechooser.beans.DateChooserCombo dateSale;
+    private datechooser.beans.DateChooserCombo dateSale1;
+    private datechooser.beans.DateChooserCombo dateSale2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -466,19 +521,86 @@ jPanel1Layout.setHorizontalGroup(
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator10;
+    private javax.swing.JSeparator jSeparator11;
+    private javax.swing.JSeparator jSeparator12;
+    private javax.swing.JSeparator jSeparator13;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JSeparator jSeparator9;
+    private javax.swing.JLabel lblDesc;
     private javax.swing.JLabel lblPrecioNoche;
+    private javax.swing.JLabel lblPrecioNoche1;
+    private javax.swing.JLabel lblPrecioNoche2;
     private javax.swing.JLabel lblPrecioSub;
+    private javax.swing.JLabel lblPrecioSub1;
+    private javax.swing.JLabel lblPrecioSub2;
     private javax.swing.JLabel lblTotal;
+    private javax.swing.JLabel lblTotal1;
+    private javax.swing.JLabel lblTotal2;
     private javax.swing.JLabel lblTotalNoches;
+    private javax.swing.JLabel lblTotalNoches1;
+    private javax.swing.JLabel lblTotalNoches2;
     private javax.swing.JTextField txtCorreo;
-    private javax.swing.JTextField txtDesc;
+    private javax.swing.JTextField txtCorreo1;
+    private javax.swing.JTextField txtCorreo2;
     private javax.swing.JTextField txtNombreC;
+    private javax.swing.JTextField txtNombreC1;
+    private javax.swing.JTextField txtNombreC2;
     private javax.swing.JTextField txtTelC;
+    private javax.swing.JTextField txtTelC1;
+    private javax.swing.JTextField txtTelC2;
     // End of variables declaration//GEN-END:variables
 
-    
+    private void verHabitaciones(int tipoHabitacion) {
+        Conexion con = new Conexion();
+        ResultSet res = null;
+        String sql = "SELECT * FROM habitaciones WHERE tipo = " + tipoHabitacion;
+        int cont = combDisponibles.getItemCount();
+        combDisponibles.removeAllItems();
+        try {
+            con.Conectar();
+            res = con.Consulta(sql);
+            while (res.next()) {
+                combDisponibles.addItem(res.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("verHabitaciones >> " + e.getMessage());
+        }
+    }
+
+    private void colocarPrecio(int tipoHabitacion, int dias) {
+        double precioNoche = 0;
+        double subtotal = 0;
+        double total = 0;
+        double descuento = 0;
+        
+        lblTotalNoches.setText(dias+" Noches");
+        switch(tipoHabitacion){
+            case 0: precioNoche = 1500;break;
+            case 1: precioNoche = 1800; break;
+            case 2: precioNoche = 2200; break;
+            default: break;
+        }  
+        lblPrecioNoche.setText("$ "+precioNoche);
+        subtotal = precioNoche*dias;
+        lblPrecioSub.setText("$ "+subtotal);
+        if(dias >= 4){
+            descuento = 500;
+        }else{
+            descuento = 0;
+        }
+        lblDesc.setText("$ "+descuento);
+        total = subtotal-descuento;
+        lblTotal.setText("$ "+total);
+    }
+
 }
