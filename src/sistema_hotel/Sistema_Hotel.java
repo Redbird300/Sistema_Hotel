@@ -5,6 +5,8 @@
  */
 package sistema_hotel;
 
+import Reportes.GenerarPDF;
+
 /**
  *
  * @author redbi
@@ -16,8 +18,10 @@ public class Sistema_Hotel {
      */
     public static void main(String[] args) {
        //Login log = new Login();
-       Inicio init  = new Inicio();
+       //Inicio init  = new Inicio();
        //Agregar_Empleado ae = new Agregar_Empleado(null,true);
+      GenerarPDF gpdf = new GenerarPDF();
+      gpdf.crearPDF(7, "Alberto Clavijo Baez", "alberto@gmail.com");
     }
     
 }
