@@ -25,8 +25,9 @@ import java.io.FileOutputStream;
  */
 public class GenerarPDF {
 
-    public void crearPDF(int folio, String cliente, String correo) {
+    public void crearPDF(int folio, String cliente, String correo,String telefono, String tipo, String habitacion, double subtotal, double total, String fechaEntra, String fechaSale, String dias, String des) {
         try {
+            
             Document doc = new Document(PageSize.LETTER, 2, 2, 20, 20);
             Font fuente = new Font();
             fuente.setStyle(Font.BOLD);
@@ -45,7 +46,6 @@ public class GenerarPDF {
             cabecera.addCell(t1);
             //cliente
             PdfPTable tabla = new PdfPTable(1);
-            String telefono = "559874632";
             Paragraph pCliente = new Paragraph("Cliente: " + cliente + "\n\nTelefono: " + telefono + "\n\nCorreo: " + correo);
             pCliente.getFont().setSize(10);
             tabla.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -62,17 +62,16 @@ public class GenerarPDF {
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             habit.addCell(c1);
 
-            c1 = new PdfPCell(new Phrase("Doble"));
+            c1 = new PdfPCell(new Phrase(tipo));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             habit.addCell(c1);
 
-            c1 = new PdfPCell(new Phrase("30"));
+            c1 = new PdfPCell(new Phrase(habitacion));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             habit.addCell(c1);
             
             //Fechas y noches
             PdfPTable fechas = new PdfPTable(2);
-            String fecha = "29-09-2021";
             
             PdfPCell fechaSel = new PdfPCell(new Phrase("Fechas de Estancia"));
             fechaSel.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -82,28 +81,28 @@ public class GenerarPDF {
             fechaSel.setHorizontalAlignment(Element.ALIGN_CENTER);
             fechas.addCell(fechaSel);
             
-            fechaSel = new PdfPCell(new Phrase("Fecha de llegada: "+fecha+"\n\nFecha de Salida: "+fecha));
+            fechaSel = new PdfPCell(new Phrase("Fecha de llegada: "+fechaEntra+"\n\nFecha de Salida: "+fechaSale));
             fechaSel.setHorizontalAlignment(Element.ALIGN_LEFT);
             fechas.addCell(fechaSel);
             
-            fechaSel = new PdfPCell(new Phrase("0"));
+            fechaSel = new PdfPCell(new Phrase(dias));
             fechaSel.setHorizontalAlignment(Element.ALIGN_CENTER);
             fechaSel.setVerticalAlignment(Element.ALIGN_MIDDLE);
             fechas.addCell(fechaSel);            
             
             //Descuento
-            Paragraph descu = new Paragraph("¿Aplica descuento?:   " + "  No");
+            Paragraph descu = new Paragraph("¿Aplica descuento?:   " + des);
             descu.setAlignment(Element.ALIGN_CENTER);
             
             //subtotal
-            Paragraph subt = new Paragraph("Subtotal: $ "+ "1500.00   ");
+            Paragraph subt = new Paragraph("Subtotal: $ "+ subtotal);
             subt.setIndentationRight(50);
             subt.setAlignment(Element.ALIGN_RIGHT);
             
             //total
-            Paragraph total = new Paragraph("Total: $ "+ "1500.00   ");
-            total.getFont().setSize(20);
-            total.setAlignment(Element.ALIGN_RIGHT);
+            Paragraph ptotal = new Paragraph("Total: $ "+ total);
+            ptotal.getFont().setSize(20);
+            ptotal.setAlignment(Element.ALIGN_RIGHT);
             //Agregar al documento
             doc.add(cabecera);
             doc.add(tabla);
@@ -111,7 +110,7 @@ public class GenerarPDF {
             doc.add(fechas);
             doc.add(descu);
             doc.add(subt);
-            doc.add(total);
+            doc.add(ptotal);
             doc.close();
             try {
                 File path = new File("Folio" + folio + ".pdf");

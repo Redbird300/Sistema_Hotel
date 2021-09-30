@@ -2,33 +2,22 @@ package sistema_hotel;
 
 import BaseDatos.Conexion;
 import Reportes.GenerarPDF;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author redbi
  */
-public class Agregar_Reservacion extends javax.swing.JDialog {
-
-    double precioNoche = 0;
-    double subtotal = 0;
-    double total = 0;
-    double descuento = 0;
-    int opc = 0;
-    int noches = 0;
-    String Entra = "";
-    String sale = "";
+public class Cotizar extends javax.swing.JDialog {
 
     /**
      * Creates new form Agregar_Reservacion
      */
-    public Agregar_Reservacion(java.awt.Frame parent, boolean modal) {
+    public Cotizar(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         verHabitaciones(0);
@@ -445,7 +434,7 @@ jPanel1Layout.setHorizontalGroup(
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        guardarInfor();
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -465,9 +454,9 @@ jPanel1Layout.setHorizontalGroup(
     }//GEN-LAST:event_txtCorreoActionPerformed
 
     private void combHabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combHabActionPerformed
-        opc = combHab.getSelectedIndex();
+        int opc = combHab.getSelectedIndex();
         verHabitaciones(opc);
-        contarDias();
+        colocarPrecio(opc, 1);
     }//GEN-LAST:event_combHabActionPerformed
 
 
@@ -525,108 +514,51 @@ jPanel1Layout.setHorizontalGroup(
     }
 
     private void colocarPrecio(int tipoHabitacion, int dias) {
-        lblTotalNoches.setText(dias + " Noches");
-        switch (tipoHabitacion) {
-            case 0:
-                precioNoche = 1500;
-                break;
-            case 1:
-                precioNoche = 1800;
-                break;
-            case 2:
-                precioNoche = 2200;
-                break;
-            default:
-                break;
-        }
-        lblPrecioNoche.setText("$ " + precioNoche);
-        subtotal = precioNoche * dias;
-        lblPrecioSub.setText("$ " + subtotal);
-        if (dias >= 4) {
+        double precioNoche = 0;
+        double subtotal = 0;
+        double total = 0;
+        double descuento = 0;
+        contarDias();
+        lblTotalNoches.setText(dias+" Noches");
+        switch(tipoHabitacion){
+            case 0: precioNoche = 1500;break;
+            case 1: precioNoche = 1800; break;
+            case 2: precioNoche = 2200; break;
+            default: break;
+        }  
+        lblPrecioNoche.setText("$ "+precioNoche);
+        subtotal = precioNoche*dias;
+        lblPrecioSub.setText("$ "+subtotal);
+        if(dias >= 4){
             descuento = 500;
-        } else {
+        }else{
             descuento = 0;
         }
-        lblDesc.setText("$ " + descuento);
-        total = subtotal - descuento;
-        lblTotal.setText("$ " + total);
-        noches = dias;
+        lblDesc.setText("$ "+descuento);
+        total = subtotal-descuento;
+        lblTotal.setText("$ "+total);
     }
-
-    private void contarDias() {
+    
+    private void contarDias(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        int añoEntra = dateEntra.getCurrent().get(Calendar.YEAR);
-        int mesEntra = dateEntra.getCurrent().get(Calendar.MONTH) + 1;
-        int diaEntra = dateEntra.getCurrent().get(Calendar.DAY_OF_MONTH);
-        Entra = "" + añoEntra + "-" + mesEntra + "-" + diaEntra;
-        int añoSale = dateSale.getCurrent().get(Calendar.YEAR);
-        int mesSale = dateSale.getCurrent().get(Calendar.MONTH) + 1;
-        int diaSale = dateSale.getCurrent().get(Calendar.DAY_OF_MONTH);
-        sale = "" + añoSale + "-" + mesSale + "-" + diaSale;
-        try {
+        int añoEntra = dateEntra.getDateFormat().getCalendar().get(Calendar.YEAR);
+        int mesEntra = dateEntra.getDateFormat().getCalendar().get(Calendar.MONTH)+1;
+        int diaEntra = dateEntra.getDateFormat().getCalendar().get(Calendar.DAY_OF_MONTH);
+        String Entra = ""+añoEntra+"-"+mesEntra+"-"+diaEntra;
+        int añoSale = dateSale.getDateFormat().getCalendar().get(Calendar.YEAR);
+        int mesSale = dateSale.getDateFormat().getCalendar().get(Calendar.MONTH)+1;
+        int diaSale = dateSale.getDateFormat().getCalendar().get(Calendar.DAY_OF_MONTH);
+        String sale = ""+añoSale+"-"+mesSale+"-"+diaSale;
+        try{
             Date inicia = dateFormat.parse(Entra);
             Date fin = dateFormat.parse(sale);
-            int dias = (int) ((fin.getTime() - inicia.getTime()) / 86400000) + 1;
-            colocarPrecio(opc, dias);
-        } catch (Exception e) {
-            System.out.println("ContarDias >>" + e.getMessage());
+            int dias =(int)((fin.getTime()-inicia.getTime())/86400000);
+            System.out.println("Dias>>"+dias);
+        }catch(Exception e){
+            System.out.println("ContarDias >>" +e.getMessage());
         }
-
-    }
-
-    private void guardarInfor() {
-        int folio = 0;
-        String nombre = txtNombreC.getText();
-        String correo = txtCorreo.getText();
-        String telefono = txtTelC.getText();
-        String fechaEntra = dateEntra.getText();
-        String fechaSale = dateSale.getText();
-        String des = "";
-        int dias = noches;
-        if (dias >= 4) {
-            des = "Si";
-        } else {
-            des = "No";
-        }
-        int habita = combDisponibles.getSelectedIndex();
-        try {
-            Conexion con = new Conexion();
-            String sql = "insert into reservaciones (id_reservacion, id_cliente, habitacion, personas, costo, id_empleado, entrada, salida)"
-                    + "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)";
-            con.Conectar();
-            PreparedStatement ps = con.conexion.prepareStatement(sql);
-            ps.setString(1, null);
-            ps.setString(2, null);
-            ps.setInt(3, habita);
-            ps.setString(4, null);
-            ps.setDouble(5, total);
-            ps.setString(6, null);
-            ps.setString(7, Entra);
-            ps.setString(8, sale);
-            ps.execute();
-            con.Cerrar();
-        } catch (Exception e) {
-            System.out.println("Error >> " + e.getMessage());
-            JOptionPane.showMessageDialog(this, "Hubo un error en el formulario, intentelo de nuevo", "Error!", JOptionPane.ERROR_MESSAGE);
-        }
-        try {
-            Conexion con = new Conexion();
-            ResultSet res = null;
-            String sql = "SELECT * FROM reservaciones ORDER BY id_reservacion DESC LIMIT 1";
-            con.Conectar();
-            res = con.Consulta(sql);
-            while (res.next()) {
-                folio = res.getInt(1);
-                GenerarPDF gpdf = new GenerarPDF();
-                gpdf.crearPDF(folio, nombre, correo, telefono, "" + opc, "" + habita, subtotal, total, fechaEntra, fechaSale, "" + dias, des);
-            }
-
-            con.Cerrar();
-        } catch (Exception e) {
-            System.out.println("Error >> " + e.getMessage());
-            JOptionPane.showMessageDialog(this, "Hubo un error en la base de datos, intentelo de nuevo", "Error!", JOptionPane.ERROR_MESSAGE);
-        }
+        
     }
 
 }
