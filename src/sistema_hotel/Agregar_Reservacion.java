@@ -1,9 +1,29 @@
 package sistema_hotel;
+
+import BaseDatos.Conexion;
+import Reportes.GenerarPDF;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author redbi
  */
 public class Agregar_Reservacion extends javax.swing.JDialog {
+
+    double precioNoche = 0;
+    double subtotal = 0;
+    double total = 0;
+    double descuento = 0;
+    int opc = 0;
+    int noches = 0;
+    String Entra = "";
+    String sale = "";
 
     /**
      * Creates new form Agregar_Reservacion
@@ -11,8 +31,10 @@ public class Agregar_Reservacion extends javax.swing.JDialog {
     public Agregar_Reservacion(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        verHabitaciones(0);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -44,13 +66,14 @@ public class Agregar_Reservacion extends javax.swing.JDialog {
         jSeparator3 = new javax.swing.JSeparator();
         lblPrecioSub = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtDesc = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
         jLabel10 = new javax.swing.JLabel();
         combDisponibles = new javax.swing.JComboBox<>();
+        lblDesc = new javax.swing.JLabel();
+        jSeparator13 = new javax.swing.JSeparator();
+        btnCotizar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -80,16 +103,6 @@ public class Agregar_Reservacion extends javax.swing.JDialog {
 
         txtNombreC.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtNombreC.setName("Nombre"); // NOI18N
-        txtNombreC.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtNombreCVaciar(evt);
-            }
-        });
-        txtNombreC.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreCActionPerformed(evt);
-            }
-        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -99,17 +112,17 @@ public class Agregar_Reservacion extends javax.swing.JDialog {
 
         combHab.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         combHab.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Doble", "Jacuzzi", "Suite" }));
+        combHab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combHabActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Tipo de habitación:");
 
         txtCorreo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtCorreo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCorreoActionPerformed(evt);
-            }
-        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -158,7 +171,6 @@ public class Agregar_Reservacion extends javax.swing.JDialog {
                 true)));
     dateEntra.setCalendarPreferredSize(new java.awt.Dimension(280, 200));
     dateEntra.setNothingAllowed(false);
-    dateEntra.setFormat(2);
     dateEntra.setFieldFont(new java.awt.Font("Nirmala UI", java.awt.Font.PLAIN, 16));
 
     jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -219,7 +231,7 @@ jLabel9.setText("Total de noches:");
 
 lblTotalNoches.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 lblTotalNoches.setForeground(new java.awt.Color(255, 255, 255));
-lblTotalNoches.setText("4 noches");
+lblTotalNoches.setText("0 noches");
 
 jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 jLabel11.setForeground(new java.awt.Color(255, 255, 255));
@@ -227,7 +239,7 @@ jLabel11.setText("Precio por noche:");
 
 lblPrecioNoche.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 lblPrecioNoche.setForeground(new java.awt.Color(255, 255, 255));
-lblPrecioNoche.setText("$ 1500");
+lblPrecioNoche.setText("$ ");
 
 jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 jLabel13.setForeground(new java.awt.Color(255, 255, 255));
@@ -235,17 +247,11 @@ jLabel13.setText("Subtotal:");
 
 lblPrecioSub.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 lblPrecioSub.setForeground(new java.awt.Color(255, 255, 255));
-lblPrecioSub.setText("$ 6000");
+lblPrecioSub.setText("$ ");
 
 jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 jLabel4.setForeground(new java.awt.Color(255, 255, 255));
 jLabel4.setText("Descuento:");
-
-txtDesc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
-jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-jLabel15.setText("$");
 
 jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 27)); // NOI18N
 jLabel16.setForeground(new java.awt.Color(255, 255, 255));
@@ -253,79 +259,88 @@ jLabel16.setText("Total:");
 
 lblTotal.setFont(new java.awt.Font("Segoe UI", 0, 27)); // NOI18N
 lblTotal.setForeground(new java.awt.Color(255, 255, 255));
-lblTotal.setText("$ 6000");
+lblTotal.setText("$ ");
 
 jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 jLabel10.setForeground(new java.awt.Color(255, 255, 255));
 jLabel10.setText("Habitaciones disponibles:");
 
 combDisponibles.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-combDisponibles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0000" }));
 
-javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-jPanel1.setLayout(jPanel1Layout);
-jPanel1Layout.setHorizontalGroup(
-    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-    .addGroup(jPanel1Layout.createSequentialGroup()
-        .addGap(151, 151, 151)
-        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+lblDesc.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+lblDesc.setForeground(new java.awt.Color(255, 255, 255));
+lblDesc.setText("$ ");
+
+btnCotizar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+btnCotizar.setText("Cotizar");
+btnCotizar.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnCotizarActionPerformed(evt);
+    }
+    });
+
+    javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+    jPanel1.setLayout(jPanel1Layout);
+    jPanel1Layout.setHorizontalGroup(
+        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGap(151, 151, 151)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel15))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel7)
-                                .addComponent(jLabel3)
-                                .addComponent(txtTelC)
-                                .addComponent(jLabel8)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel9)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(lblTotalNoches))
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(dateEntra, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                                .addComponent(dateSale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(combHab, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblDesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(8, 8, 8))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTelC, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblTotalNoches))
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dateEntra, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                            .addComponent(dateSale, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(combHab, 0, 239, Short.MAX_VALUE)
                             .addComponent(jLabel6)
-                            .addComponent(combDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(combDisponibles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel10)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblPrecioNoche))
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblPrecioNoche, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel13)
                                 .addGap(18, 18, 18)
-                                .addComponent(lblPrecioSub))
-                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblPrecioSub, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel16)
                                 .addGap(18, 18, 18)
-                                .addComponent(lblTotal))
-                            .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator2)
+                            .addComponent(jSeparator3))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNombreC, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(0, 162, Short.MAX_VALUE))))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(47, 47, 47)
+                            .addComponent(btnCotizar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(62, 62, 62)
+                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(0, 156, Short.MAX_VALUE))))
     );
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -351,8 +366,7 @@ jPanel1Layout.setHorizontalGroup(
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(jLabel8)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(dateSale, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 6, Short.MAX_VALUE))
+                    .addComponent(dateSale, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addComponent(jLabel6)
                     .addGap(18, 18, 18)
@@ -361,13 +375,13 @@ jPanel1Layout.setHorizontalGroup(
                     .addComponent(jLabel10)
                     .addGap(18, 18, 18)
                     .addComponent(combDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(18, 18, 18)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel11)
                         .addComponent(lblPrecioNoche))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGap(18, 18, 18)
+            .addGap(18, 24, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -382,19 +396,23 @@ jPanel1Layout.setHorizontalGroup(
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGap(18, 18, 18)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel16)
-                .addComponent(lblTotal)
-                .addComponent(jLabel4)
-                .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel15))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(lblTotal))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(lblDesc)))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(32, 32, 32)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(45, 45, 45))
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCotizar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(93, 93, 93))
     );
 
     jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
@@ -405,16 +423,16 @@ jPanel1Layout.setHorizontalGroup(
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addContainerGap(300, Short.MAX_VALUE)
             .addComponent(jLabel1)
             .addGap(294, 294, 294))
+        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-            .addGap(0, 2, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -424,28 +442,26 @@ jPanel1Layout.setHorizontalGroup(
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        //hola
+        guardarInfor();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void txtNombreCVaciar(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNombreCVaciar
+    private void combHabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combHabActionPerformed
+        opc = combHab.getSelectedIndex();
+        verHabitaciones(opc);
+        contarDias();
+    }//GEN-LAST:event_combHabActionPerformed
 
-    }//GEN-LAST:event_txtNombreCVaciar
-
-    private void txtNombreCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreCActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreCActionPerformed
-
-    private void txtCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCorreoActionPerformed
-  
+    private void btnCotizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCotizarActionPerformed
+        cotizar();
+    }//GEN-LAST:event_btnCotizarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnCotizar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> combDisponibles;
     private javax.swing.JComboBox<String> combHab;
@@ -455,7 +471,6 @@ jPanel1Layout.setHorizontalGroup(
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -467,18 +482,225 @@ jPanel1Layout.setHorizontalGroup(
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator13;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JLabel lblDesc;
     private javax.swing.JLabel lblPrecioNoche;
     private javax.swing.JLabel lblPrecioSub;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JLabel lblTotalNoches;
     private javax.swing.JTextField txtCorreo;
-    private javax.swing.JTextField txtDesc;
     private javax.swing.JTextField txtNombreC;
     private javax.swing.JTextField txtTelC;
     // End of variables declaration//GEN-END:variables
 
-    
+    private void verHabitaciones(int tipoHabitacion) {
+        Conexion con = new Conexion();
+        ResultSet res = null;
+        String sql = "SELECT * FROM habitaciones WHERE tipo = " + tipoHabitacion;
+        int cont = combDisponibles.getItemCount();
+        combDisponibles.removeAllItems();
+        try {
+            con.Conectar();
+            res = con.Consulta(sql);
+            while (res.next()) {
+                combDisponibles.addItem(res.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("verHabitaciones >> " + e.getMessage());
+        }
+    }
+
+    private void colocarPrecio(int tipoHabitacion, int dias) {
+        lblTotalNoches.setText(dias + " Noches");
+        switch (tipoHabitacion) {
+            case 0:
+                precioNoche = 1500;
+                break;
+            case 1:
+                precioNoche = 1800;
+                break;
+            case 2:
+                precioNoche = 2200;
+                break;
+            default:
+                break;
+        }
+        lblPrecioNoche.setText("$ " + precioNoche);
+        subtotal = precioNoche * dias;
+        lblPrecioSub.setText("$ " + subtotal);
+        if (dias >= 4) {
+            descuento = 500;
+        } else {
+            descuento = 0;
+        }
+        lblDesc.setText("$ " + descuento);
+        total = subtotal - descuento;
+        lblTotal.setText("$ " + total);
+        noches = dias;
+    }
+
+    private void contarDias() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        int añoEntra = dateEntra.getCurrent().get(Calendar.YEAR);
+        int mesEntra = dateEntra.getCurrent().get(Calendar.MONTH) + 1;
+        int diaEntra = dateEntra.getCurrent().get(Calendar.DAY_OF_MONTH);
+        Entra = "" + añoEntra + "-" + mesEntra + "-" + diaEntra;
+        int añoSale = dateSale.getCurrent().get(Calendar.YEAR);
+        int mesSale = dateSale.getCurrent().get(Calendar.MONTH) + 1;
+        int diaSale = dateSale.getCurrent().get(Calendar.DAY_OF_MONTH);
+        sale = "" + añoSale + "-" + mesSale + "-" + diaSale;
+        try {
+            Date inicia = dateFormat.parse(Entra);
+            Date fin = dateFormat.parse(sale);
+            int dias = (int) ((fin.getTime() - inicia.getTime()) / 86400000) + 1;
+            colocarPrecio(opc, dias);
+        } catch (Exception e) {
+            System.out.println("ContarDias >>" + e.getMessage());
+        }
+
+    }
+
+    private void guardarInfor() {
+        int folio = 0;
+        String nombre = txtNombreC.getText();
+        String correo = txtCorreo.getText();
+        String telefono = txtTelC.getText();
+        String fechaEntra = dateEntra.getText();
+        String fechaSale = dateSale.getText();
+        String des = "";
+        int dias = noches;
+        if (dias > 3) {
+            des = "Si";
+        } else {
+            des = "No";
+        }
+        int habita = combDisponibles.getSelectedIndex();
+         String tipo = "";
+        if(habita == 1){
+            tipo = "Doble";
+        }else if(habita == 2){
+            tipo = "Jacuzzi";
+        }else{
+            tipo = "Doble";
+        }
+        try {
+            Conexion con = new Conexion();
+            String sql = "insert into reservaciones (id_reservacion, id_cliente, habitacion, noches, costo, id_empleado, entrada, salida, fecha_reservacion)"
+                    + "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)";
+            con.Conectar();
+            PreparedStatement ps = con.conexion.prepareStatement(sql);
+            ps.setString(1, null);
+            ps.setString(2, null);
+            ps.setInt(3, habita);
+            ps.setInt(4, dias);
+            ps.setDouble(5, total);
+            ps.setString(6, null);
+            ps.setString(7, Entra);
+            ps.setString(8, sale);
+            ps.setString(9, null);
+            ps.execute();
+            con.Cerrar();
+        } catch (Exception e) {
+            System.out.println("Error >> " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Hubo un error en el formulario, intentelo de nuevo", "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+        try {
+            Conexion con = new Conexion();
+            ResultSet res = null;
+            String sql = "SELECT * FROM reservaciones ORDER BY id_reservacion DESC LIMIT 1";
+            con.Conectar();
+            res = con.Consulta(sql);
+            while (res.next()) {
+                folio = res.getInt(1);
+                GenerarPDF gpdf = new GenerarPDF();
+                gpdf.crearPDF(folio, nombre, correo, telefono, tipo, ""+habita, subtotal, total, fechaEntra, fechaSale, "" + dias, des);
+            }
+
+            con.Cerrar();
+        } catch (Exception e) {
+            System.out.println("Error >> " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Hubo un error en la base de datos, intentelo de nuevo", "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void cotizar() {
+       int folio = 0;
+        String nombre = txtNombreC.getText();
+        String correo = txtCorreo.getText();
+        String telefono = txtTelC.getText();
+        String fechaEntra = dateEntra.getText();
+        String fechaSale = dateSale.getText();
+        
+        String des = "";
+        int dias = noches;
+        if (dias > 3) {
+            des = "Si";
+        } else {
+            des = "No";
+        }
+        int seleccionado = combDisponibles.getSelectedIndex();
+        String habita = combDisponibles.getItemAt(seleccionado);
+        int tipoSelec = combHab.getSelectedIndex();
+        String tipo = "";
+        if(tipoSelec == 1){
+            tipo = "Jacuzzi";
+        }else if(tipoSelec == 2){
+            tipo = "Suite";
+        }else{
+            tipo = "Doble";
+        }
+        try {
+            Conexion con = new Conexion();
+            String sql = "insert into cotizaciones (id_cotizacion, id_cliente, habitacion, noches, costo, id_empleado, entrada, salida, fecha_cotizacion)"
+                    + "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            con.Conectar();
+            PreparedStatement ps = con.conexion.prepareStatement(sql);
+            ps.setString(1, null);
+            ps.setString(2, null);
+            ps.setString(3, habita);
+            ps.setInt(4, dias);
+            ps.setDouble(5, total);
+            ps.setString(6, null);
+            ps.setString(7, Entra);
+            ps.setString(8, sale);
+            ps.setString(9, null);
+            ps.execute();
+            con.Cerrar();
+        } catch (Exception e) {
+            System.out.println("Error >> " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Hubo un error en el formulario, intentelo de nuevo", "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+        try {
+            Conexion con = new Conexion();
+            ResultSet res = null;
+            String sql = "SELECT * FROM cotizaciones ORDER BY id_cotizacion DESC LIMIT 1";
+            con.Conectar();
+            res = con.Consulta(sql);
+            while (res.next()) {
+                folio = res.getInt(1);
+                GenerarPDF gpdf = new GenerarPDF();
+                gpdf.crearPDF(folio, nombre, correo, telefono, tipo, ""+habita, subtotal, total, fechaEntra, fechaSale, "" + dias, des);
+            }
+
+            con.Cerrar();
+        } catch (Exception e) {
+            System.out.println("Error >> " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Hubo un error en la base de datos, intentelo de nuevo", "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+           int opc = JOptionPane.showConfirmDialog(null, "¿Desea realizar el pago?", "Confirmar cotización", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+           if (opc == 0){
+               metodo_Pago mep = new metodo_Pago(null, true);
+               mep.setIDreservacion(folio);
+               mep.setTotal(total);
+               mep.setLocationRelativeTo(null);
+               mep.setVisible(true);
+               
+           }
+    } 
+
+
 }
