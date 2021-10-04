@@ -73,6 +73,7 @@ public class Agregar_Reservacion extends javax.swing.JDialog {
         combDisponibles = new javax.swing.JComboBox<>();
         lblDesc = new javax.swing.JLabel();
         jSeparator13 = new javax.swing.JSeparator();
+        btnCotizar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -102,16 +103,6 @@ public class Agregar_Reservacion extends javax.swing.JDialog {
 
         txtNombreC.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtNombreC.setName("Nombre"); // NOI18N
-        txtNombreC.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtNombreCVaciar(evt);
-            }
-        });
-        txtNombreC.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreCActionPerformed(evt);
-            }
-        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -132,11 +123,6 @@ public class Agregar_Reservacion extends javax.swing.JDialog {
         jLabel6.setText("Tipo de habitación:");
 
         txtCorreo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtCorreo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCorreoActionPerformed(evt);
-            }
-        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -285,66 +271,76 @@ lblDesc.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 lblDesc.setForeground(new java.awt.Color(255, 255, 255));
 lblDesc.setText("$ ");
 
-javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-jPanel1.setLayout(jPanel1Layout);
-jPanel1Layout.setHorizontalGroup(
-    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-    .addGroup(jPanel1Layout.createSequentialGroup()
-        .addGap(151, 151, 151)
-        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addGap(18, 18, 18)
-                            .addComponent(lblDesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGap(8, 8, 8))
-                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtTelC, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel9)
-                            .addGap(18, 18, 18)
-                            .addComponent(lblTotalNoches))
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(dateEntra, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                        .addComponent(dateSale, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(combHab, 0, 239, Short.MAX_VALUE)
-                        .addComponent(jLabel6)
-                        .addComponent(combDisponibles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel10)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel11)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(lblPrecioNoche, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel13)
-                            .addGap(18, 18, 18)
-                            .addComponent(lblPrecioSub, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel16)
-                            .addGap(18, 18, 18)
-                            .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jSeparator2)
-                        .addComponent(jSeparator3))
+btnCotizar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+btnCotizar.setText("Cotizar");
+btnCotizar.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnCotizarActionPerformed(evt);
+    }
+    });
+
+    javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+    jPanel1.setLayout(jPanel1Layout);
+    jPanel1Layout.setHorizontalGroup(
+        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGap(151, 151, 151)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel5)
-                        .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtNombreC, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(243, 243, 243)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(jLabel2)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblDesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(8, 8, 8))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTelC, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblTotalNoches))
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dateEntra, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                            .addComponent(dateSale, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(combHab, 0, 239, Short.MAX_VALUE)
+                            .addComponent(jLabel6)
+                            .addComponent(combDisponibles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel10)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblPrecioNoche, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblPrecioSub, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel16)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator2)
+                            .addComponent(jSeparator3))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNombreC, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(47, 47, 47)
+                            .addComponent(btnCotizar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(62, 62, 62)
+                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(0, 156, Short.MAX_VALUE))))
     );
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -414,7 +410,8 @@ jPanel1Layout.setHorizontalGroup(
             .addGap(32, 32, 32)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCotizar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(93, 93, 93))
     );
 
@@ -452,27 +449,19 @@ jPanel1Layout.setHorizontalGroup(
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void txtNombreCVaciar(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNombreCVaciar
-
-    }//GEN-LAST:event_txtNombreCVaciar
-
-    private void txtNombreCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreCActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreCActionPerformed
-
-    private void txtCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCorreoActionPerformed
-
     private void combHabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combHabActionPerformed
         opc = combHab.getSelectedIndex();
         verHabitaciones(opc);
         contarDias();
     }//GEN-LAST:event_combHabActionPerformed
 
+    private void btnCotizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCotizarActionPerformed
+        cotizar();
+    }//GEN-LAST:event_btnCotizarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnCotizar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> combDisponibles;
     private javax.swing.JComboBox<String> combHab;
@@ -584,26 +573,35 @@ jPanel1Layout.setHorizontalGroup(
         String fechaSale = dateSale.getText();
         String des = "";
         int dias = noches;
-        if (dias >= 4) {
+        if (dias > 3) {
             des = "Si";
         } else {
             des = "No";
         }
         int habita = combDisponibles.getSelectedIndex();
+         String tipo = "";
+        if(habita == 1){
+            tipo = "Doble";
+        }else if(habita == 2){
+            tipo = "Jacuzzi";
+        }else{
+            tipo = "Doble";
+        }
         try {
             Conexion con = new Conexion();
-            String sql = "insert into reservaciones (id_reservacion, id_cliente, habitacion, personas, costo, id_empleado, entrada, salida)"
+            String sql = "insert into reservaciones (id_reservacion, id_cliente, habitacion, noches, costo, id_empleado, entrada, salida, fecha_reservacion)"
                     + "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)";
             con.Conectar();
             PreparedStatement ps = con.conexion.prepareStatement(sql);
             ps.setString(1, null);
             ps.setString(2, null);
             ps.setInt(3, habita);
-            ps.setString(4, null);
+            ps.setInt(4, dias);
             ps.setDouble(5, total);
             ps.setString(6, null);
             ps.setString(7, Entra);
             ps.setString(8, sale);
+            ps.setString(9, null);
             ps.execute();
             con.Cerrar();
         } catch (Exception e) {
@@ -619,7 +617,7 @@ jPanel1Layout.setHorizontalGroup(
             while (res.next()) {
                 folio = res.getInt(1);
                 GenerarPDF gpdf = new GenerarPDF();
-                gpdf.crearPDF(folio, nombre, correo, telefono, "" + opc, "" + habita, subtotal, total, fechaEntra, fechaSale, "" + dias, des);
+                gpdf.crearPDF(folio, nombre, correo, telefono, tipo, ""+habita, subtotal, total, fechaEntra, fechaSale, "" + dias, des);
             }
 
             con.Cerrar();
@@ -628,5 +626,81 @@ jPanel1Layout.setHorizontalGroup(
             JOptionPane.showMessageDialog(this, "Hubo un error en la base de datos, intentelo de nuevo", "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    private void cotizar() {
+       int folio = 0;
+        String nombre = txtNombreC.getText();
+        String correo = txtCorreo.getText();
+        String telefono = txtTelC.getText();
+        String fechaEntra = dateEntra.getText();
+        String fechaSale = dateSale.getText();
+        
+        String des = "";
+        int dias = noches;
+        if (dias > 3) {
+            des = "Si";
+        } else {
+            des = "No";
+        }
+        int seleccionado = combDisponibles.getSelectedIndex();
+        String habita = combDisponibles.getItemAt(seleccionado);
+        int tipoSelec = combHab.getSelectedIndex();
+        String tipo = "";
+        if(tipoSelec == 1){
+            tipo = "Jacuzzi";
+        }else if(tipoSelec == 2){
+            tipo = "Suite";
+        }else{
+            tipo = "Doble";
+        }
+        try {
+            Conexion con = new Conexion();
+            String sql = "insert into cotizaciones (id_cotizacion, id_cliente, habitacion, noches, costo, id_empleado, entrada, salida, fecha_cotizacion)"
+                    + "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            con.Conectar();
+            PreparedStatement ps = con.conexion.prepareStatement(sql);
+            ps.setString(1, null);
+            ps.setString(2, null);
+            ps.setString(3, habita);
+            ps.setInt(4, dias);
+            ps.setDouble(5, total);
+            ps.setString(6, null);
+            ps.setString(7, Entra);
+            ps.setString(8, sale);
+            ps.setString(9, null);
+            ps.execute();
+            con.Cerrar();
+        } catch (Exception e) {
+            System.out.println("Error >> " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Hubo un error en el formulario, intentelo de nuevo", "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+        try {
+            Conexion con = new Conexion();
+            ResultSet res = null;
+            String sql = "SELECT * FROM cotizaciones ORDER BY id_cotizacion DESC LIMIT 1";
+            con.Conectar();
+            res = con.Consulta(sql);
+            while (res.next()) {
+                folio = res.getInt(1);
+                GenerarPDF gpdf = new GenerarPDF();
+                gpdf.crearPDF(folio, nombre, correo, telefono, tipo, ""+habita, subtotal, total, fechaEntra, fechaSale, "" + dias, des);
+            }
+
+            con.Cerrar();
+        } catch (Exception e) {
+            System.out.println("Error >> " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Hubo un error en la base de datos, intentelo de nuevo", "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+           int opc = JOptionPane.showConfirmDialog(null, "¿Desea realizar el pago?", "Confirmar cotización", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+           if (opc == 0){
+               metodo_Pago mep = new metodo_Pago(null, true);
+               mep.setIDreservacion(folio);
+               mep.setTotal(total);
+               mep.setLocationRelativeTo(null);
+               mep.setVisible(true);
+               
+           }
+    } 
+
 
 }
