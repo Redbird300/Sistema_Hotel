@@ -13,17 +13,15 @@ import javax.swing.JOptionPane;
  *
  * @author redbi
  */
-public class Pago_Efectivo extends javax.swing.JDialog {
+public class Pago_Tarjeta extends javax.swing.JDialog {
 
     private double total = 0;
     private int id_cotizacion;
-    private double cambio = 0;
 
-    public Pago_Efectivo(java.awt.Frame parent, boolean modal, double costo, int folio) {
+    public Pago_Tarjeta(java.awt.Frame parent, boolean modal, double costo, int folio) {
         super(parent, modal);
         initComponents();
         total = costo;
-        lblTotal.setText(""+total);
         id_cotizacion = folio;
     }
 
@@ -33,49 +31,27 @@ public class Pago_Efectivo extends javax.swing.JDialog {
 
         fSGradientPanel1 = new LIB.FSGradientPanel();
         jLabel1 = new javax.swing.JLabel();
-        lblTotal = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtIngresado = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        lblCambio = new javax.swing.JLabel();
+        txtTransac = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
+        txtBanco = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setType(java.awt.Window.Type.POPUP);
 
         jLabel1.setFont(new java.awt.Font("Nirmala UI", 1, 28)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Efectivo");
-
-        lblTotal.setFont(new java.awt.Font("Nirmala UI", 0, 24)); // NOI18N
-        lblTotal.setForeground(new java.awt.Color(0, 0, 0));
-        lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblTotal.setText("0.0");
+        jLabel1.setText("Tarjeta");
 
         jLabel4.setFont(new java.awt.Font("Nirmala UI", 0, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("Ingresado:");
+        jLabel4.setText("#Transaccion:");
 
         jLabel5.setFont(new java.awt.Font("Nirmala UI", 0, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setText("Total:");
-
-        txtIngresado.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtIngresadoKeyReleased(evt);
-            }
-        });
-
-        jLabel6.setFont(new java.awt.Font("Nirmala UI", 0, 24)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("Cambio:");
-
-        lblCambio.setFont(new java.awt.Font("Nirmala UI", 0, 24)); // NOI18N
-        lblCambio.setForeground(new java.awt.Color(0, 0, 0));
-        lblCambio.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblCambio.setText("0.0");
+        jLabel5.setText("Banco:");
 
         btnAceptar.setText("Aceptar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -103,21 +79,18 @@ public class Pago_Efectivo extends javax.swing.JDialog {
                     .addGroup(fSGradientPanel1Layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addGroup(fSGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(fSGradientPanel1Layout.createSequentialGroup()
-                                .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(59, 59, 59)
-                                .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(fSGradientPanel1Layout.createSequentialGroup()
-                                .addGroup(fSGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel6))
-                                .addGap(18, 18, 18)
-                                .addGroup(fSGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblCambio, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtIngresado, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(61, Short.MAX_VALUE))
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4))
+                        .addGap(18, 18, 18)
+                        .addGroup(fSGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtTransac, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                            .addComponent(txtBanco)))
+                    .addGroup(fSGradientPanel1Layout.createSequentialGroup()
+                        .addGap(100, 100, 100)
+                        .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         fSGradientPanel1Layout.setVerticalGroup(
             fSGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,22 +98,18 @@ public class Pago_Efectivo extends javax.swing.JDialog {
                 .addGap(10, 10, 10)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addGroup(fSGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(fSGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(lblTotal))
-                .addGap(19, 19, 19)
-                .addGroup(fSGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtIngresado, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGap(27, 27, 27)
+                    .addComponent(txtBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(fSGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(lblCambio))
+                    .addComponent(txtTransac, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addGroup(fSGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                     .addComponent(btnVolver, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
-                .addGap(16, 16, 16))
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -158,29 +127,12 @@ public class Pago_Efectivo extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         guardar();
     }//GEN-LAST:event_btnAceptarActionPerformed
-
-    private void txtIngresadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIngresadoKeyReleased
-        try {
-            String obtener = txtIngresado.getText();
-            if (obtener.length() == 0) {
-                lblCambio.setText("-" + total);
-            } else {
-                double calcular = Double.parseDouble(obtener);
-                double res = calcular - total;
-                lblCambio.setText("" + res);
-                cambio = res;
-            }
-        } catch (Exception e) {
-            System.out.println("Monto >> " + e.getMessage());
-        }
-    }//GEN-LAST:event_txtIngresadoKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -190,13 +142,13 @@ public class Pago_Efectivo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel lblCambio;
-    private javax.swing.JLabel lblTotal;
-    private javax.swing.JTextField txtIngresado;
+    private javax.swing.JTextField txtBanco;
+    private javax.swing.JTextField txtTransac;
     // End of variables declaration//GEN-END:variables
 
     private void guardar() {
+        String banco = txtBanco.getText();
+        String id_trans = txtTransac.getText();
         try {
             Conexion con = new Conexion();
             String sql = "insert into pagos (id_pago, id_reservacion, id_empleado, fecha_pago, tipo_pago, total, cambio, banco, id_transaccion, id_transferencia)"
@@ -207,11 +159,11 @@ public class Pago_Efectivo extends javax.swing.JDialog {
             ps.setInt(2, id_cotizacion);
             ps.setInt(3, 0);
             ps.setString(4, null);
-            ps.setInt(5, 0);
+            ps.setInt(5, 1);
             ps.setDouble(6, total);
-            ps.setDouble(7, cambio);
-            ps.setString(8, null);
-            ps.setString(9, null);
+            ps.setString(7, null);
+            ps.setString(8, banco);
+            ps.setString(9, id_trans);
             ps.setString(10, null);
             ps.execute();
             con.Cerrar();

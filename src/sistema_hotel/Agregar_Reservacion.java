@@ -691,14 +691,18 @@ btnCotizar.addActionListener(new java.awt.event.ActionListener() {
             System.out.println("Error >> " + e.getMessage());
             JOptionPane.showMessageDialog(this, "Hubo un error en la base de datos, intentelo de nuevo", "Error!", JOptionPane.ERROR_MESSAGE);
         }
+        boolean res;
            int opc = JOptionPane.showConfirmDialog(null, "¿Desea realizar el pago?", "Confirmar cotización", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
            if (opc == 0){
-               metodo_Pago mep = new metodo_Pago(null, true);
-               mep.setIDreservacion(folio);
-               mep.setTotal(total);
+               metodo_Pago mep = new metodo_Pago(null, true, total, folio);
                mep.setLocationRelativeTo(null);
                mep.setVisible(true);
-               
+               res = mep.guardar();
+               if(res = true){
+                   guardarInfor();
+               }else{
+                   return;
+               }               
            }
     } 
 
