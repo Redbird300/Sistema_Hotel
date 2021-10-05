@@ -10,12 +10,16 @@ package sistema_hotel;
  * @author redbi
  */
 public class metodo_Pago extends javax.swing.JDialog {
-    double total = 0;
+
+    private double costo;
     private int reserva;
-    
-    public metodo_Pago(java.awt.Frame parent, boolean modal) {
+    private boolean ejecuta = false;
+
+    public metodo_Pago(java.awt.Frame parent, boolean modal, double total, int folio) {
         super(parent, modal);
         initComponents();
+        costo = total;
+        reserva = folio;
     }
 
     @SuppressWarnings("unchecked")
@@ -127,7 +131,6 @@ public class metodo_Pago extends javax.swing.JDialog {
         pagoTrans();
     }//GEN-LAST:event_btnTransferenciaActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEfectivo;
@@ -137,35 +140,31 @@ public class metodo_Pago extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 
-    public void setTotal(double total){
-        this.total = total;
-    }
-    
-    public double getTotal(){
-        return total;
-    }
-    
-    public void setIDreservacion(int folio){
-        this.reserva = folio;
-    }
-    
-    public int getIdReservacion(){
-        return reserva;
-    }
-    
     private void pagoEfectivo() {
-       Pago_Efectivo pe = new Pago_Efectivo(null, true);
-       pe.setLocationRelativeTo(null);
-       pe.setVisible(true);
+        Pago_Efectivo pe = new Pago_Efectivo(null, true, costo, reserva);
+        pe.setLocationRelativeTo(null);
+        pe.setVisible(true);
+        ejecuta = true;
+       this.dispose();
     }
 
     private void pagoTarjeta() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Pago_Tarjeta pt = new Pago_Tarjeta(null, true, costo, reserva);
+        pt.setLocationRelativeTo(null);
+        pt.setVisible(true);
+        ejecuta = true;
+        this.dispose();
     }
 
     private void pagoTrans() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Pago_Transferencia ptrans = new Pago_Transferencia(null, true, costo, reserva);
+        ptrans.setLocationRelativeTo(null);
+        ptrans.setVisible(true);
+        ejecuta = true;
+        this.dispose();
     }
     
-    
+    public boolean guardar(){
+        return ejecuta;           
+    }
 }
