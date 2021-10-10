@@ -25,7 +25,7 @@ import java.io.FileOutputStream;
  */
 public class GenerarPDF {
 
-    public void crearPDF(int folio, String cliente, String correo,String telefono, String tipo, String habitacion, double subtotal, double total, String fechaEntra, String fechaSale, String dias, String des) {
+    public void crearPDF(int folio, String cliente, String correo,String telefono, String tipo, String habitacion, double subtotal, double total, String fechaEntra, String fechaSale, String dias, String des, int mod) {
         try {
             
             Document doc = new Document(PageSize.LETTER, 2, 2, 20, 20);
@@ -41,7 +41,12 @@ public class GenerarPDF {
             cabecera.setWidths(new float[]{5, 1});
             cabecera.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
             cabecera.addCell(t1);
-            t1 = new Paragraph("Folio:\n" + folio);
+            if(mod == 0){
+               t1 = new Paragraph("Folio:\n r-" + folio); 
+            }else{
+                t1 = new Paragraph("Folio:\n c-" + folio); 
+            }
+            
             t1.getFont().setSize(10);
             cabecera.addCell(t1);
             //cliente

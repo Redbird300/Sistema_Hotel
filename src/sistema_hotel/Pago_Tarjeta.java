@@ -6,6 +6,7 @@
 package sistema_hotel;
 
 import BaseDatos.Conexion;
+import Metodos.Guardar_Reservaciones;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 
@@ -14,17 +15,16 @@ import javax.swing.JOptionPane;
  * @author redbi
  */
 public class Pago_Tarjeta extends javax.swing.JDialog {
-
-    private double total = 0;
-    private int id_cotizacion;
-
+    
+    private boolean pagado = false;
+    
     public Pago_Tarjeta(java.awt.Frame parent, boolean modal, double costo, int folio) {
         super(parent, modal);
         initComponents();
-        total = costo;
-        id_cotizacion = folio;
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -127,6 +127,7 @@ public class Pago_Tarjeta extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        pagado = false;
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
@@ -149,29 +150,17 @@ public class Pago_Tarjeta extends javax.swing.JDialog {
     private void guardar() {
         String banco = txtBanco.getText();
         String id_trans = txtTransac.getText();
-        try {
-            Conexion con = new Conexion();
-            String sql = "insert into pagos (id_pago, id_reservacion, id_empleado, fecha_pago, tipo_pago, total, cambio, banco, id_transaccion, id_transferencia)"
-                    + "VALUES ( ?, ?, ?, ?, ?, ? , ?, ?, ?, ?)";
-            con.Conectar();
-            PreparedStatement ps = con.conexion.prepareStatement(sql);
-            ps.setString(1, null);
-            ps.setInt(2, id_cotizacion);
-            ps.setInt(3, 0);
-            ps.setString(4, null);
-            ps.setInt(5, 1);
-            ps.setDouble(6, total);
-            ps.setString(7, null);
-            ps.setString(8, banco);
-            ps.setString(9, id_trans);
-            ps.setString(10, null);
-            ps.execute();
-            con.Cerrar();
-            JOptionPane.showMessageDialog(null, "Registro exitoso!!!");
-        } catch (Exception e) {
-            System.out.println("Error >> " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Hubo un error, intentelo de nuevo", "Error!", JOptionPane.ERROR_MESSAGE);
+        if (banco.length() != 0 && id_trans.length() != 0) {
+            Guardar_Reservaciones gr = new Guardar_Reservaciones();
+            gr.guardar_Pago(1, null, null, banco, id_trans, null);
+            pagado = true;
+            this.dispose();
+        } else {
+            JOptionPane.showConfirmDialog(null, "Hay un error en los campos");
         }
     }
-
+    
+    public boolean Pagado() {
+        return pagado;
+    }
 }

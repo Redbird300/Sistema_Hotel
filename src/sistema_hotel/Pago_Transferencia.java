@@ -5,8 +5,7 @@
  */
 package sistema_hotel;
 
-import BaseDatos.Conexion;
-import java.sql.PreparedStatement;
+import Metodos.Guardar_Reservaciones;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,14 +14,11 @@ import javax.swing.JOptionPane;
  */
 public class Pago_Transferencia extends javax.swing.JDialog {
 
-    private double total = 0;
-    private int id_cotizacion;
+    private boolean pagado = false;
 
     public Pago_Transferencia(java.awt.Frame parent, boolean modal, double costo, int folio) {
         super(parent, modal);
         initComponents();
-        total = costo;
-        id_cotizacion = folio;
     }
 
     @SuppressWarnings("unchecked")
@@ -133,29 +129,17 @@ public class Pago_Transferencia extends javax.swing.JDialog {
 
     private void guardar() {
         String transfer = txtTransfer.getText();
-        try {
-            Conexion con = new Conexion();
-            String sql = "insert into pagos (id_pago, id_reservacion, id_empleado, fecha_pago, tipo_pago, total, cambio, banco, id_transaccion, id_transferencia)"
-                    + "VALUES ( ?, ?, ?, ?, ?, ? , ?, ?, ?, ?)";
-            con.Conectar();
-            PreparedStatement ps = con.conexion.prepareStatement(sql);
-            ps.setString(1, null);
-            ps.setInt(2, id_cotizacion);
-            ps.setInt(3, 0);
-            ps.setString(4, null);
-            ps.setInt(5, 2);
-            ps.setDouble(6, total);
-            ps.setString(7, null);
-            ps.setString(8, null);
-            ps.setString(9, null);
-            ps.setString(10, transfer);
-            ps.execute();
-            con.Cerrar();
-            JOptionPane.showMessageDialog(null, "Registro exitoso!!!");
-        } catch (Exception e) {
-            System.out.println("Error >> " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Hubo un error, intentelo de nuevo", "Error!", JOptionPane.ERROR_MESSAGE);
+        if (transfer.length() != 0) {
+            Guardar_Reservaciones gr = new Guardar_Reservaciones();
+            gr.guardar_Pago(2, null, null, null, null, transfer);
+            pagado = true;
+            this.dispose();
+        } else {
+            JOptionPane.showConfirmDialog(null, "Hay un error en el campo");
         }
     }
 
+    public boolean Pagado() {
+        return pagado;
+    }
 }

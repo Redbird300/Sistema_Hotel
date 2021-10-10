@@ -14,7 +14,7 @@ public class Conexion {
     private static String driver = "com.mysql.cj.jdbc.Driver";
     private static String baseDatos = "jdbc:mysql://localhost:3306/sistema_hotel";
     private static String usuario = "root";
-    private static String password = "admin";
+    private static String password = "";
     private ResultSet res = null;
 
     public void Conectar() {

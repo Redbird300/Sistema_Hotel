@@ -5,6 +5,8 @@
  */
 package sistema_hotel;
 
+import Metodos.Guardar_Reservaciones;
+
 /**
  *
  * @author redbi
@@ -15,11 +17,15 @@ public class metodo_Pago extends javax.swing.JDialog {
     private int reserva;
     private boolean ejecuta = false;
 
-    public metodo_Pago(java.awt.Frame parent, boolean modal, double total, int folio) {
+    public metodo_Pago(java.awt.Frame parent, boolean modal, double total, int mod) {
         super(parent, modal);
-        initComponents();
+        Guardar_Reservaciones gr = new Guardar_Reservaciones();
+        reserva = gr.folio(mod);
         costo = total;
-        reserva = folio;
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -33,9 +39,9 @@ public class metodo_Pago extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setType(java.awt.Window.Type.POPUP);
 
         btnEfectivo.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
-        btnEfectivo.setForeground(new java.awt.Color(0, 0, 0));
         btnEfectivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/pago-en-efectivo.png"))); // NOI18N
         btnEfectivo.setText("Efectivo");
         btnEfectivo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -48,7 +54,6 @@ public class metodo_Pago extends javax.swing.JDialog {
         });
 
         btnTarjeta.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
-        btnTarjeta.setForeground(new java.awt.Color(0, 0, 0));
         btnTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/tarjeta-de-credito.png"))); // NOI18N
         btnTarjeta.setText("Tarjeta");
         btnTarjeta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -60,7 +65,6 @@ public class metodo_Pago extends javax.swing.JDialog {
         });
 
         btnTransferencia.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
-        btnTransferencia.setForeground(new java.awt.Color(0, 0, 0));
         btnTransferencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/transferencia-de-dinero.png"))); // NOI18N
         btnTransferencia.setText("Transferencia");
         btnTransferencia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -73,7 +77,6 @@ public class metodo_Pago extends javax.swing.JDialog {
         });
 
         jLabel1.setFont(new java.awt.Font("Nirmala UI", 1, 28)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Tipo de pago");
 
         javax.swing.GroupLayout fSGradientPanel1Layout = new javax.swing.GroupLayout(fSGradientPanel1);
@@ -144,15 +147,21 @@ public class metodo_Pago extends javax.swing.JDialog {
         Pago_Efectivo pe = new Pago_Efectivo(null, true, costo, reserva);
         pe.setLocationRelativeTo(null);
         pe.setVisible(true);
-        ejecuta = true;
-       this.dispose();
+        Boolean pagado = pe.Pagado();
+        if(pagado == true){
+           ejecuta = true;  
+        }    
+        this.dispose();
     }
 
     private void pagoTarjeta() {
         Pago_Tarjeta pt = new Pago_Tarjeta(null, true, costo, reserva);
         pt.setLocationRelativeTo(null);
         pt.setVisible(true);
-        ejecuta = true;
+        Boolean pagado = pt.Pagado();
+        if(pagado == true){
+           ejecuta = true;  
+        }    
         this.dispose();
     }
 
@@ -160,7 +169,10 @@ public class metodo_Pago extends javax.swing.JDialog {
         Pago_Transferencia ptrans = new Pago_Transferencia(null, true, costo, reserva);
         ptrans.setLocationRelativeTo(null);
         ptrans.setVisible(true);
-        ejecuta = true;
+        Boolean pagado = ptrans.Pagado();
+        if(pagado == true){
+           ejecuta = true;  
+        }    
         this.dispose();
     }
     

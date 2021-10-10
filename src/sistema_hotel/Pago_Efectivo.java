@@ -6,6 +6,7 @@
 package sistema_hotel;
 
 import BaseDatos.Conexion;
+import Metodos.Guardar_Reservaciones;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 
@@ -16,15 +17,14 @@ import javax.swing.JOptionPane;
 public class Pago_Efectivo extends javax.swing.JDialog {
 
     private double total = 0;
-    private int id_cotizacion;
     private double cambio = 0;
+    private boolean pagado = false;
 
     public Pago_Efectivo(java.awt.Frame parent, boolean modal, double costo, int folio) {
         super(parent, modal);
         initComponents();
         total = costo;
         lblTotal.setText(""+total);
-        id_cotizacion = folio;
     }
 
     @SuppressWarnings("unchecked")
@@ -158,7 +158,7 @@ public class Pago_Efectivo extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-
+        pagado = false;
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
@@ -197,29 +197,18 @@ public class Pago_Efectivo extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void guardar() {
-        try {
-            Conexion con = new Conexion();
-            String sql = "insert into pagos (id_pago, id_reservacion, id_empleado, fecha_pago, tipo_pago, total, cambio, banco, id_transaccion, id_transferencia)"
-                    + "VALUES ( ?, ?, ?, ?, ?, ? , ?, ?, ?, ?)";
-            con.Conectar();
-            PreparedStatement ps = con.conexion.prepareStatement(sql);
-            ps.setString(1, null);
-            ps.setInt(2, id_cotizacion);
-            ps.setInt(3, 0);
-            ps.setString(4, null);
-            ps.setInt(5, 0);
-            ps.setDouble(6, total);
-            ps.setDouble(7, cambio);
-            ps.setString(8, null);
-            ps.setString(9, null);
-            ps.setString(10, null);
-            ps.execute();
-            con.Cerrar();
-            JOptionPane.showMessageDialog(null, "Registro exitoso!!!");
-        } catch (Exception e) {
-            System.out.println("Error >> " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Hubo un error, intentelo de nuevo", "Error!", JOptionPane.ERROR_MESSAGE);
-        }
+       if(cambio >= 0){
+           Guardar_Reservaciones gr = new Guardar_Reservaciones();
+           gr.guardar_Pago(0, ""+total, ""+cambio, null, null, null);
+           pagado = true;
+           this.dispose();
+       }else{
+           JOptionPane.showConfirmDialog(null, "Falta cubrir el monto total");
+       }
+    }
+    
+    public boolean Pagado(){
+        return pagado;
     }
 
 }

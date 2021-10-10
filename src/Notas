@@ -1,0 +1,30 @@
+            String sql = "insert into cotizaciones (id_cotizacion, id_cliente, habitacion, noches, costo, 
+                            id_empleado, entrada, salida, fecha_cotizacion)"
+                    + "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            ps.setString(1, null);
+            ps.setString(2, null);
+            ps.setString(3, habita);
+            ps.setInt(4, dias);
+            ps.setDouble(5, total);
+            ps.setString(6, null);
+            ps.setString(7, Entra);
+            ps.setString(8, sale);
+            ps.setString(9, null);
+
+
+            String sql = "insert into reservaciones (id_reservacion, id_cliente, habitacion, noches, costo,
+                            id_empleado, entrada, salida, fecha_reservacion)"
+                    + "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            ps.setString(1, null);
+            ps.setString(2, null);
+            ps.setInt(3, habita);
+            ps.setInt(4, dias);
+            ps.setDouble(5, total);
+            ps.setString(6, null);
+            ps.setString(7, Entra);
+            ps.setString(8, sale);
+            ps.setString(9, null);
+
+ 
