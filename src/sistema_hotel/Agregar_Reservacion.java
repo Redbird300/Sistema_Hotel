@@ -522,6 +522,7 @@ public class Agregar_Reservacion extends javax.swing.JDialog {
         boolean guardado = mp.guardar();
         if (guardado == true) {
             JOptionPane.showMessageDialog(this, "Reservacion generada con exito!");
+            guardar_En_Base(0);
              generarPDF(0);
             limpiar();
         }

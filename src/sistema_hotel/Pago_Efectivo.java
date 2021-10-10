@@ -15,13 +15,14 @@ import javax.swing.JOptionPane;
  * @author redbi
  */
 public class Pago_Efectivo extends javax.swing.JDialog {
-
+    private int mod = 0;
     private double total = 0;
     private double cambio = 0;
     private boolean pagado = false;
 
-    public Pago_Efectivo(java.awt.Frame parent, boolean modal, double costo, int folio) {
+    public Pago_Efectivo(java.awt.Frame parent, boolean modal, double costo, int folio, int opc) {
         super(parent, modal);
+        mod = opc;
         initComponents();
         total = costo;
         lblTotal.setText(""+total);
@@ -199,7 +200,7 @@ public class Pago_Efectivo extends javax.swing.JDialog {
     private void guardar() {
        if(cambio >= 0){
            Guardar_Reservaciones gr = new Guardar_Reservaciones();
-           gr.guardar_Pago(0, ""+total, ""+cambio, null, null, null);
+           gr.guardar_Pago(0, ""+total, ""+cambio, null, null, null, mod);
            pagado = true;
            this.dispose();
        }else{

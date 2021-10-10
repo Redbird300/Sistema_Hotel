@@ -124,10 +124,12 @@ public class Guardar_Reservaciones {
         return folio;
     }
     
-    public void guardar_Pago(int tipo_pago, String total, String cambio, String banco, String id_transaccion, String id_transferencia){
-        CotizacionAReservacion();
+    public void guardar_Pago(int tipo_pago, String total, String cambio, String banco, String id_transaccion, String id_transferencia, int mod){
         int id_empleado = 1;
-        int id_reservacion = folio(0);
+        int id_reservacion = folio(0)+1;
+        if(mod == 1){
+        CotizacionAReservacion();
+        }
          try {
             Conexion con = new Conexion();
             String sql = "insert into pagos (id_pago, id_reservacion, id_empleado, tipo_pago, total, cambio, banco, id_transaccion, id_transferencia, fecha_pago)"

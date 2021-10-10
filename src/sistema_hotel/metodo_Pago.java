@@ -12,13 +12,14 @@ import Metodos.Guardar_Reservaciones;
  * @author redbi
  */
 public class metodo_Pago extends javax.swing.JDialog {
-
+    private int opc;
     private double costo;
     private int reserva;
     private boolean ejecuta = false;
 
     public metodo_Pago(java.awt.Frame parent, boolean modal, double total, int mod) {
         super(parent, modal);
+        opc = mod;
         Guardar_Reservaciones gr = new Guardar_Reservaciones();
         reserva = gr.folio(mod);
         costo = total;
@@ -144,7 +145,7 @@ public class metodo_Pago extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void pagoEfectivo() {
-        Pago_Efectivo pe = new Pago_Efectivo(null, true, costo, reserva);
+        Pago_Efectivo pe = new Pago_Efectivo(null, true, costo, reserva, opc);
         pe.setLocationRelativeTo(null);
         pe.setVisible(true);
         Boolean pagado = pe.Pagado();
@@ -155,7 +156,7 @@ public class metodo_Pago extends javax.swing.JDialog {
     }
 
     private void pagoTarjeta() {
-        Pago_Tarjeta pt = new Pago_Tarjeta(null, true, costo, reserva);
+        Pago_Tarjeta pt = new Pago_Tarjeta(null, true, costo, reserva, opc);
         pt.setLocationRelativeTo(null);
         pt.setVisible(true);
         Boolean pagado = pt.Pagado();
@@ -166,7 +167,7 @@ public class metodo_Pago extends javax.swing.JDialog {
     }
 
     private void pagoTrans() {
-        Pago_Transferencia ptrans = new Pago_Transferencia(null, true, costo, reserva);
+        Pago_Transferencia ptrans = new Pago_Transferencia(null, true, costo, reserva, opc);
         ptrans.setLocationRelativeTo(null);
         ptrans.setVisible(true);
         Boolean pagado = ptrans.Pagado();
