@@ -3,8 +3,6 @@ package sistema_hotel;
 import BaseDatos.Conexion;
 import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -20,7 +18,7 @@ public class Ver_Reservaciones extends javax.swing.JDialog {
     public Ver_Reservaciones(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        Llenar_Registros();
+        Llenar_Registros(0);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         
@@ -109,9 +107,9 @@ public class Ver_Reservaciones extends javax.swing.JDialog {
 
     private void chbFecActActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbFecActActionPerformed
         if(chbFecAct.isSelected() == true){
-            ordenar();
+            Llenar_Registros(1);
         }else{
-            Llenar_Registros();
+            Llenar_Registros(0);
         }
     }//GEN-LAST:event_chbFecActActionPerformed
 
@@ -123,10 +121,15 @@ public class Ver_Reservaciones extends javax.swing.JDialog {
     private javax.swing.JTable tablaReservas;
     // End of variables declaration//GEN-END:variables
 
-    public void Llenar_Registros() {
+    public void Llenar_Registros(int opc) {
         Conexion con = new Conexion();
         ResultSet res = null;
-        String sql = "SELECT * FROM reservaciones";
+         String sql = null;
+        if(opc == 0 ){
+         sql = "SELECT * FROM reservaciones";
+        }else{
+            sql = "select * from reservaciones where fecha_entra >= curdate() ORDER by fecha_entra";
+        }
         Object nf[] = {null, null, null, null};
         String tipoHabitacion = "";
         DefaultTableModel dtm = (DefaultTableModel) tablaReservas.getModel();
@@ -167,9 +170,5 @@ public class Ver_Reservaciones extends javax.swing.JDialog {
         } catch (Exception e) {
             System.out.println("Llenar RR>> " + e.getMessage());
         }
-    }
-
-    private void ordenar() {
-        
     }
 }

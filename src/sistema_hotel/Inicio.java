@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sistema_hotel;
 
 import BaseDatos.Conexion;
@@ -25,6 +20,7 @@ public class Inicio extends javax.swing.JFrame {
         initComponents();
         llenarTablaEmpleados();
         llenarTablaHabitaciones();
+        CambioEnTabla();
         this.setVisible(true);
     }
 
@@ -125,6 +121,11 @@ public class Inicio extends javax.swing.JFrame {
                 "#", "Tipo", "Piso", "Edificio"
             }
         ));
+        tablaHabitaciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tablaHabitacionesMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaHabitaciones);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
@@ -390,8 +391,12 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVerActionPerformed
 
     private void btnVerRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerRActionPerformed
-        // TODO add your handling code here:
+       Mostrar_Reservaciones();
     }//GEN-LAST:event_btnVerRActionPerformed
+
+    private void tablaHabitacionesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaHabitacionesMousePressed
+       CambioEnTabla();
+    }//GEN-LAST:event_tablaHabitacionesMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -508,6 +513,25 @@ public class Inicio extends javax.swing.JFrame {
 
     private void verReservaciones() {
         Ver_Reservaciones vr = new Ver_Reservaciones(this, true);
+    }
+    
+    private void CambioEnTabla() {
+        int select = tablaHabitaciones.getSelectedRow();
+        if (select == -1) {
+            btnVerR.setEnabled(false);
+        } else {
+            btnVerR.setEnabled(true);
+        }
+    }
+
+    private void Mostrar_Reservaciones() {
+        DefaultTableModel tm = (DefaultTableModel) tablaHabitaciones.getModel();
+        String valor = (String) tm.getValueAt(tablaHabitaciones.getSelectedRow(),0);
+        int habitacion =  Integer.parseInt(valor);
+        System.out.println("hab"+ habitacion);
+       Mostrar_Reservaciones mr = new Mostrar_Reservaciones(this, true, habitacion);
+       mr.setVisible(true);
+       mr.setLocationRelativeTo(null);
     }
 
 }
