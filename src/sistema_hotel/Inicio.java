@@ -52,6 +52,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnVer = new javax.swing.JButton();
         btnGenerarReser = new javax.swing.JButton();
+        btnVerR = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
@@ -130,7 +131,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel2.setText("Habitaciones");
 
         btnVer.setFont(new java.awt.Font("Nirmala UI", 0, 18)); // NOI18N
-        btnVer.setText("Ver reservaciones");
+        btnVer.setText("Ver Registros");
         btnVer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVerActionPerformed(evt);
@@ -145,6 +146,14 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
+        btnVerR.setFont(new java.awt.Font("Nirmala UI", 0, 18)); // NOI18N
+        btnVerR.setText("Ver Reservaciones");
+        btnVerR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerRActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -153,16 +162,19 @@ public class Inicio extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(btnVer)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnGenerarReser)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 884, Short.MAX_VALUE)
                         .addGap(21, 21, 21))))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(btnVerR)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnGenerarReser)
+                .addGap(18, 18, 18)
+                .addComponent(btnVer)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,9 +184,10 @@ public class Inicio extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGenerarReser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnVer, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
+                    .addComponent(btnVerR, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(63, Short.MAX_VALUE))
         );
 
@@ -376,6 +389,10 @@ public class Inicio extends javax.swing.JFrame {
         verReservaciones();
     }//GEN-LAST:event_btnVerActionPerformed
 
+    private void btnVerRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerRActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVerRActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarEmpleado;
@@ -390,6 +407,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btnReservaciones;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnVer;
+    private javax.swing.JButton btnVerR;
     private LIB.FSLabel fSLabel1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -445,8 +463,7 @@ public class Inicio extends javax.swing.JFrame {
     }
 
     private void llenarTablaHabitaciones() {
-        
-        /*
+
          Conexion con = new Conexion();
         ResultSet res = null;
         String sql = "SELECT * FROM habitaciones";
@@ -482,7 +499,7 @@ public class Inicio extends javax.swing.JFrame {
             con.Cerrar();
         } catch (Exception e) {
             System.out.println("Llenar habitaciones>> " + e.getMessage());
-        }*/
+        }
     }
 
     private void CrearReservacion() {
