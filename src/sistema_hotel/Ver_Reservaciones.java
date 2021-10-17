@@ -44,7 +44,7 @@ public class Ver_Reservaciones extends javax.swing.JDialog {
 
             },
             new String [] {
-                "#", "Cliente", "Telefono", "Habitacion", "Tipo", "Fecha de Entrada", "Fecha de salida"
+                "Empleado", "Cliente", "Telefono", "Habitacion", "Tipo", "Fecha de Entrada", "Fecha de salida"
             }
         ));
         jScrollPane3.setViewportView(tablaReservas);
@@ -143,7 +143,6 @@ public class Ver_Reservaciones extends javax.swing.JDialog {
             res = con.Consulta(sql);
             while (res.next()) {
                 dtm.addRow(nf);
-                tablaReservas.setValueAt(res.getString(1), conta, 0);//#reservacion
                 tablaReservas.setValueAt(res.getString(2), conta, 1);//Cliente
                 tablaReservas.setValueAt(res.getString(3), conta, 2);//telefono
                 tablaReservas.setValueAt(res.getString(5), conta, 3);//habitacion
@@ -169,6 +168,19 @@ public class Ver_Reservaciones extends javax.swing.JDialog {
             con.Cerrar();
         } catch (Exception e) {
             System.out.println("Llenar RR>> " + e.getMessage());
+        }
+        try {
+            String more =  "select empleados.nombre from empleados, pagos, reservaciones where empleados.id_empleado = pagos.id_empleado and pagos.id_reservacion = id_reservaciones";
+              int contador = 0;
+            con.Conectar();
+            res = con.Consulta(more);
+            while (res.next()) {
+                   tablaReservas.setValueAt(res.getString(1), contador, 0);//#reservacion
+                   contador++;
+            }
+
+         } catch (Exception e) {
+            System.out.println("Llenar RN>> " + e.getMessage());
         }
     }
 }

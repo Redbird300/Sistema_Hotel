@@ -14,11 +14,13 @@ import javax.swing.JOptionPane;
  */
 public class Pago_Transferencia extends javax.swing.JDialog {
     private int opc = 0;
+    private double total = 0;
     private boolean pagado = false;
 
     public Pago_Transferencia(java.awt.Frame parent, boolean modal, double costo, int folio, int mod) {
         super(parent, modal);
         opc = mod;
+        total = costo;
         initComponents();
     }
 
@@ -132,7 +134,7 @@ public class Pago_Transferencia extends javax.swing.JDialog {
         String transfer = txtTransfer.getText();
         if (transfer.length() != 0) {
             Guardar_Reservaciones gr = new Guardar_Reservaciones();
-            gr.guardar_Pago(2, null, null, null, null, transfer, opc);
+            gr.guardar_Pago(2, ""+total, null, null, null, transfer, opc);
             pagado = true;
             this.dispose();
         } else {

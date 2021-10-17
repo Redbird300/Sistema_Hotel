@@ -16,11 +16,13 @@ import javax.swing.JOptionPane;
  */
 public class Pago_Tarjeta extends javax.swing.JDialog {
     private int mod = 0;
+    private double total = 0;
     private boolean pagado = false;
     
     public Pago_Tarjeta(java.awt.Frame parent, boolean modal, double costo, int folio, int opc) {
         super(parent, modal);
         mod = opc;
+        total = costo;
         initComponents();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -153,7 +155,7 @@ public class Pago_Tarjeta extends javax.swing.JDialog {
         String id_trans = txtTransac.getText();
         if (banco.length() != 0 && id_trans.length() != 0) {
             Guardar_Reservaciones gr = new Guardar_Reservaciones();
-            gr.guardar_Pago(1, null, null, banco, id_trans, null, mod);
+            gr.guardar_Pago(1, ""+total, null, banco, id_trans, null, mod);
             pagado = true;
             this.dispose();
         } else {

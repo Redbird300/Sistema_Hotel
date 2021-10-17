@@ -5,9 +5,7 @@
  */
 package sistema_hotel;
 
-import BaseDatos.Conexion;
 import Metodos.Guardar_Reservaciones;
-import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 
 /**
