@@ -17,8 +17,8 @@ public class Sistema_Hotel {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       //Login log = new Login();
-       Inicio init  = new Inicio();
+       Login log = new Login();
+       //Inicio init  = new Inicio();
        //Agregar_Empleado ae = new Agregar_Empleado(null,true);
       //GenerarPDF gpdf = new GenerarPDF();
       //gpdf.crearPDF(7, "Alberto Clavijo Baez", "alberto@gmail.com");

@@ -1,6 +1,8 @@
-
 package sistema_hotel;
 
+import BaseDatos.Conexion;
+import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -8,6 +10,10 @@ import javax.swing.JOptionPane;
  * @author redbi
  */
 public class Login extends javax.swing.JFrame {
+
+    public static String usuario;
+    public static int permisos;
+    private String contra;
 
     public Login() {
         initComponents();
@@ -25,11 +31,11 @@ public class Login extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        fSTexFieldMD2 = new LIB.FSTexFieldMD();
         jLabel7 = new javax.swing.JLabel();
+        txtContra = new LIB.FSPasswordFieldMD();
         btnEntrar = new LIB.FSButtonMD();
         jPanel5 = new javax.swing.JPanel();
-        fSTexFieldMD3 = new LIB.FSTexFieldMD();
+        txtUsuario = new LIB.FSTexFieldMD();
         jLabel8 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
@@ -73,11 +79,11 @@ public class Login extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        fSTexFieldMD2.setForeground(new java.awt.Color(0, 0, 0));
-        fSTexFieldMD2.setBordeColorFocus(new java.awt.Color(255, 255, 255));
-        fSTexFieldMD2.setPlaceholder("Ingresa tu contraseña");
-
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/candado-cerrado.png"))); // NOI18N
+
+        txtContra.setForeground(new java.awt.Color(0, 0, 0));
+        txtContra.setBordeColorFocus(new java.awt.Color(255, 255, 255));
+        txtContra.setPlaceholder("Ingresa tu contraseña");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -87,15 +93,15 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fSTexFieldMD2, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
+                .addComponent(txtContra, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(fSTexFieldMD2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
+            .addComponent(txtContra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 310, 300, -1));
@@ -110,9 +116,14 @@ public class Login extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
-        fSTexFieldMD3.setForeground(new java.awt.Color(0, 0, 0));
-        fSTexFieldMD3.setBordeColorFocus(new java.awt.Color(255, 255, 255));
-        fSTexFieldMD3.setPlaceholder("Ingresa tu usuario");
+        txtUsuario.setForeground(new java.awt.Color(0, 0, 0));
+        txtUsuario.setBordeColorFocus(new java.awt.Color(255, 255, 255));
+        txtUsuario.setPlaceholder("Ingresa tu usuario");
+        txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                acciones(evt);
+            }
+        });
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/usuario.png"))); // NOI18N
 
@@ -124,11 +135,11 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fSTexFieldMD3, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
+                .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(fSTexFieldMD3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel8)
@@ -161,16 +172,21 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-       JOptionPane.showMessageDialog(null, "Hoy no vaquero");
+        Comprobar();
     }//GEN-LAST:event_btnEntrarActionPerformed
 
-    
+    private void acciones(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_acciones
+       if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            Comprobar();
+        } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_acciones
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private LIB.FSButtonMD btnEntrar;
     private javax.swing.JButton btnSalir;
-    private LIB.FSTexFieldMD fSTexFieldMD2;
-    private LIB.FSTexFieldMD fSTexFieldMD3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -181,5 +197,36 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private LIB.FSPasswordFieldMD txtContra;
+    private LIB.FSTexFieldMD txtUsuario;
     // End of variables declaration//GEN-END:variables
+
+    private void Comprobar() {
+        Conexion con =new Conexion();
+        String correo = txtUsuario.getText().trim();
+        String pass = txtContra.getText().trim();
+        String sql = "SELECT * FROM empleados WHERE correo ='"+correo+"'";
+        ResultSet res;
+        try{
+            con.Conectar();
+            res = con.Consulta(sql);
+            if(res.next()){ //El usuario si existe
+                usuario = res.getString(2); //columna nombre
+                contra = res.getString(5); //columna contraseña
+                permisos = res.getInt(6); //columna permisos
+                if(pass.equals(contra)){
+                    JOptionPane.showMessageDialog(this, "El usuario " + usuario + " ha iniciado sesion");
+                    Inicio init= new Inicio();  
+                    this.dispose();
+                    init.setVisible(true);
+                }else{ //las contraseñas no coninciden
+                    JOptionPane.showMessageDialog(this, "La contraseña no coincide");
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "El usuario no esta registrado");
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Comprobar >> " + e.getMessage());
+        }
+    }
 }

@@ -55,20 +55,19 @@ public class GenerarExcel {
             System.err.println(ex.getMessage());
         }
         //consulta sql
-        String sql = "SELECT id_pago, tipo_pago, Precio, Costo, Cantidad, Categoria FROM productos";
+        String sql = "SELECT * FROM pagos";
         try {
-            System.out.println("Obteniendo registros");
             PreparedStatement pstm = conect.prepareStatement(sql);
             ResultSet res = pstm.executeQuery();
             
             while (res.next()) {
                 //column - fila
-                Number id = new Number(0, row, res.getLong("id_pago"));
-                Label descripcion = new Label(1, row, res.getString("tipo_pago"));
-                Number precio = new Number(2, row, res.getDouble("Precio"));
-                Number costo = new Number(3, row, res.getDouble("Costo"));
-                Number cantidad = new Number(4, row, res.getLong("Cantidad"));
-                Label categoria = new Label(5, row, res.getString("Categoria"));
+                Number id = new Number(0, row, res.getLong(1));
+                Label descripcion = new Label(1, row, res.getString(2));
+                Number precio = new Number(2, row, res.getDouble(3));
+                Number costo = new Number(3, row, res.getDouble(4));
+                Number cantidad = new Number(4, row, res.getLong(5));
+                Label categoria = new Label(5, row, res.getString(6));
                 row++;
                 try {
                     excelSheet.addCell(id);
@@ -99,7 +98,6 @@ public class GenerarExcel {
     }
     
     public void guardarExcel(){
-
         JFileChooser selectorArchivos = new JFileChooser();
         selectorArchivos.showSaveDialog(null);
         selectorArchivos.setDialogTitle("Guardar");
